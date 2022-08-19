@@ -1,0 +1,21 @@
+.sign__nav-button {
+  margin: 0;
+  padding: 0;
+  width: 68.75%;
+  color: #fff;
+  background: rgba(255, 255, 255, 0);
+  font-size: 18px;
+  line-height: 1.22;
+  position: absolute;
+  top: 51px;
+  border: none;
+  text-align: end;
+  z-index: 3;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.sign__nav-button:hover {
+  opacity: 0.8;
+  transition: opacity 0.3s linear;
+}

@@ -1,0 +1,23 @@
+.header {
+  display: flex;
+  box-sizing: border-box;
+  align-items: flex-start;
+  align-content: flex-start;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  width: 68.75%;
+  min-height: 74px;
+  color: #fff;
+  background-color: #000;
+}
+
+@media screen and (max-width: 501px) {
+  .header {
+    width: 100%;
+    min-height: 56px;
+  }
+}

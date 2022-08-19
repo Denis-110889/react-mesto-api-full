@@ -1,0 +1,46 @@
+.form__handlers {
+  margin: 13px auto 37px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  border: none;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* .form__handlers:hover {
+  opacity: 0.8;
+} */
+
+@media screen and (max-width: 501px) {
+  .form__handlers {
+    margin: 15px auto 25px;
+    width: 238px;
+  }
+}

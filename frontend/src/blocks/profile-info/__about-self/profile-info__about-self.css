@@ -1,0 +1,29 @@
+.profile-info__about-self {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  font-family: inherit;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 1.22;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 801px) {
+  .profile-info__about-self {
+    margin-bottom: 31px;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 501px) {
+  .profile-info__about-self {
+    font-size: clamp(14px, 3vw, 18px);
+    line-height: 1.21;
+  }
+}
+
+

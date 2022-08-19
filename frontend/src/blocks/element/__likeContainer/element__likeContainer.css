@@ -1,0 +1,10 @@
+.element__likeContainer{
+  margin: 0;
+  padding: 0;
+  height: 35px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
