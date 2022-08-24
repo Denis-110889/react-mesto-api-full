@@ -25,4 +25,4 @@ function ConfirmDeletePopup(props) {
     )
 }
 
-export default ConfirmDeletePopup
+export default ConfirmDeletePopup;

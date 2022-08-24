@@ -21,16 +21,16 @@ function Card(props) {
             ''}`
     );
 
+    function handleDeleteClick() {
+        onCardDelete(card)
+    }
+
     function handleClick() {
         onCardClick(card);
     }
 
     function handleLikeClick() {
         onCardLike(card)
-    }
-
-    function handleDeleteClick() {
-        onCardDelete(card)
     }
 
     return (

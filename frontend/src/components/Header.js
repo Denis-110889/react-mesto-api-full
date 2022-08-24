@@ -31,4 +31,4 @@ function Header({onLoggOut, isLoggedIn, userEmail, name, path}) {
     )
 }
 
-export default Header
+export default Header;
