@@ -1,0 +1,6 @@
+.header__link {
+    color: #ffffff;
+    text-decoration: none;
+    transition: all .3s;
+    cursor: pointer;
+}

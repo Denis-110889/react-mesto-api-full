@@ -1,19 +1,33 @@
-function ImagePopup({ card, onClose }) {
-  return (
-    <div
-      className={`popup popup_type_poster 
-          ${card.isOpen && "popup_opened"}`}>
-      <div className="poster">
-        <img className="poster__image" src={card.link} alt={card.name} />
-        <h2 className="poster__name">{card.name}</h2>
-        <button
-          type="reset"
-          className="popup__close"
-          onClick={onClose}
-        ></button>
-      </div>
-    </div>
-  );
+import Popup from "./Popup"
+
+function ImagePopup({card, onClose}) {
+    return (
+        <Popup 
+            onClose={onClose}
+            isOpen={card.isOpen}
+        >
+            <div className="popup__container">
+              <button 
+                type="button" 
+                className="popup__close-button link" 
+                aria-label="Закрыть" 
+                onClick={onClose}
+              ></button>
+              <figure 
+                className="popup__content-container">
+                <img 
+                  className="popup__image-big" 
+                  src={card && card.link} 
+                  alt={card && card.name}
+                />
+                <figcaption 
+                  className="popup__image-caption">
+                  {card.name}
+                </figcaption>
+              </figure>
+            </div>          
+        </Popup>
+    )
 }
 
-export default ImagePopup;
+export default ImagePopup

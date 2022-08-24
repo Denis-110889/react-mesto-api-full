@@ -1,17 +1,14 @@
 .popup {
-  margin: 0;
-  padding: 0;
-  position: fixed;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0.5s, opacity 0.5s linear;
-  justify-content: center;
-  align-items: center;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100%;
-  z-index: 3;
+    visibility: hidden;
+    transition: opacity .4s ease-in, visibility .4s ease-out;
+    opacity: 0;
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: #00000080;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }

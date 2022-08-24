@@ -6,7 +6,7 @@ const cardSchema = mongoose.Schema({
   name: {
     type: String,
     required: true,
-    minlength: 2,
+    minlength: [2, 'Должно быть не меньше 2, имеется {VALUE}'],
     maxlength: 30,
   },
   link: {
@@ -27,6 +27,7 @@ const cardSchema = mongoose.Schema({
   likes: {
     type: [mongoose.Schema.Types.ObjectId],
     required: true,
+    ref: 'user',
     default: [],
   },
   createdAt: {

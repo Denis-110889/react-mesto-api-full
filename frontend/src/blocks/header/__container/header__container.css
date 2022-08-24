@@ -1,0 +1,14 @@
+.header__container {
+    display: flex;
+    column-gap: 24px;
+    align-items: center;
+    font-size: 18px;
+}
+
+@media screen and (max-width: 500px) {
+    .header__container {
+      flex-direction: column;
+      justify-content: center;
+      margin-bottom: 40px;
+      }
+  } 

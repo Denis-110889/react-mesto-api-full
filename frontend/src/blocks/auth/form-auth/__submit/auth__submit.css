@@ -1,0 +1,18 @@
+.auth__submit {
+    margin-top: auto;
+    display: block;
+    width: 358px;
+    padding: 14px;
+    border: none;
+    background-color: #ffffff;
+    border-radius: 2px;
+    font-size: 18px;
+    line-height: 1.21;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 500px) {
+    .auth__submit {
+        width: 260px;
+      }
+  } 

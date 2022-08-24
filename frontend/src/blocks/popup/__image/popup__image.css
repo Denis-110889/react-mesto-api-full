@@ -1,8 +1,8 @@
 .popup__image {
-    margin: 60px auto 32px;
-    padding: 0;
     width: 120px;
     height: 120px;
-    object-fit: cover;
-    border-radius: 50%;
+    margin: 26px auto 32px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }

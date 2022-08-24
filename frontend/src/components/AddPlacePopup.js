@@ -1,65 +1,67 @@
-import PopupWithForm from "./PopupWithForm";
-import React from "react";
+import {useState, useEffect} from "react"
+import PopupWithForm from "./PopupWithForm"
+import Popup from "./Popup"
 
-function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
-  
-  const [place, setPlace] = React.useState("");
-  const [placeLink, setPlaceLink] = React.useState("");
+function AddPlacePopup({loader, isOpen, onClose, onAddPlace}) {
+    const [name, setName] = useState('')
+    const [link, setLink] = useState('')
 
-  function handlePlaceChange(e) {
-    setPlace(e.target.value);
-  }
+    function handleSubmit(evt) {
+        evt.preventDefault()
+        onAddPlace({
+            name,
+            link
+        })
+    }
 
-  function handlePlaceLinkChange(e) {
-    setPlaceLink(e.target.value);
-  }
+    useEffect(() => {
+        setName('')
+        setLink('')
+    }, [isOpen])
 
-  function handleAddPlaceSubmit(e) {
-    e.preventDefault();
-    onAddPlace({
-      name: place,
-      link: placeLink,
-    });
-  }
-
-  return (
-    <PopupWithForm
-      name="cardPopup"
-      title="Новое место"
-      btnText=" Создать"
-      isOpen={isOpen}
-      onClose={onClose}
-      onSubmit={handleAddPlaceSubmit}
-    >
-      <fieldset className="form__input-container">
-        <input
-          type="text"
-          name="place"
-          className="form__input-area form__input-area_name"
-          id="place"
-          placeholder="Название"
-          value={place}
-          onChange={handlePlaceChange}
-          minLength="2"
-          maxLength="30"
-          required
-        />
-        <span className="popup__error" id="error-place"></span>
-
-        <input
-          type="url"
-          name="placeLink"
-          className="form__input-area form__input-area_property"
-          id="placeLink"
-          placeholder="Введите ссылку"
-          value={placeLink}
-          onChange={handlePlaceLinkChange}
-          required
-        />
-        <span className="popup__error" id="error-placeLink"></span>
-      </fieldset>
-    </PopupWithForm>
-  );
+    return (
+        <Popup
+            onClose={onClose}
+            isOpen={isOpen}
+        >
+            <PopupWithForm
+                name="add"
+                title="Новое место"
+                buttonText={loader ? "Сохранение..." : "Создать"}
+                onClose={onClose}
+                onSubmit={handleSubmit}
+            >
+                <label className="popup__form-field">
+                    <input 
+                        className="popup__input popup__input_value_name" 
+                        id="title-input" 
+                        type="text" 
+                        name="name" 
+                        placeholder="Название" 
+                        required minLength="2" 
+                        maxLength="30" 
+                        autoComplete="off" 
+                        value={name} 
+                        onChange={e => setName(e.target.value)}
+                    />
+                    <span className="popup__input-error title-input-error"></span>
+                </label>
+                <label className="popup__form-field">
+                    <input 
+                        className="popup__input popup__input_value_link" 
+                        id="link-input" 
+                        type="url" 
+                        name="link" 
+                        placeholder="Ссылка на картинку" 
+                        required 
+                        value={link} 
+                        onChange={e => setLink(e.target.value)}
+                    />
+                    <span className="popup__input-error link-input-error"></span>
+                </label>
+            </PopupWithForm>
+        </Popup>
+    )
 }
 
-export default AddPlacePopup;
+export default AddPlacePopup

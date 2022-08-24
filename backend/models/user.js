@@ -8,13 +8,13 @@ const { REG_LINK } = require('../const/const');
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    minlength: 2,
+    minlength: [2, 'Должно быть не меньше 2, имеется {VALUE}'],
     maxlength: 30,
     default: 'Жак-Ив Кусто',
   },
   about: {
     type: String,
-    minlength: 2,
+    minlength: [2, 'Должно быть не меньше 2, имеется {VALUE}'],
     maxlength: 30,
     default: 'Исследователь',
   },

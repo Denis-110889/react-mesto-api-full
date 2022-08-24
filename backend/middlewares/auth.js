@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { TrowUnauthorizedError } = require('../errors/TrowUnauthorizedError');
+const { secretKey } = require('../const/const');
 
 let payload;
 
@@ -13,7 +14,7 @@ const isAuthorized = (req, res, next) => {
   const token = auth.replace('Bearer ', '');
 
   try {
-    payload = jwt.verify(token, 'secret');
+    payload = jwt.verify(token, secretKey);
   } catch (err) {
     throw new TrowUnauthorizedError('Авторизуйтесь для доступа!');
   }

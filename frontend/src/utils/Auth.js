@@ -1,41 +1,64 @@
-export const BASE_URL = "https://auth.nomoreparties.co";
+import { optionsApi } from './optionsApi'
 
-const checkResponse = (res) => {
-  if (res.ok) {
-    return res.json();
-  }
+export const signIn = ({ password, email }) => {
+    return fetch(optionsApi.baseUrl + 'signin', {
+        method: "POST",
+        headers: optionsApi.headers,
+        body: JSON.stringify({
+            password,
+            email
+        })
+    })
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+            if (res.status === 400) {
+                return Promise.reject('Не передано одно из полей')
+            } else if (res.status === 401) {
+                return Promise.reject('Пользователь не найден')
+            }
+            return Promise.reject(`${res.status}`)
+        })
+}
 
-  return res.json().then((data) => {
-    throw new Error(data.message);
-  });
-};
+export const signUp = ({ password, email }) => {
+    return fetch(optionsApi.baseUrl + 'signup', {
+        method: "POST",
+        headers: optionsApi.headers,
+        body: JSON.stringify({
+            password,
+            email
+        })
+    })
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+            if (res.status === 400) {
+                return Promise.reject('Некорректно заполнено одно из полей')
+            }
+            return Promise.reject(`${res.status}`)
+        })
+}
 
-export const register = (password, email) => {
-  return fetch(`${BASE_URL}/signup`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ password, email }),
-  }).then(checkResponse);
-};
-
-export const autorisation = (password, email) => {
-  return fetch(`${BASE_URL}/signin`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ password, email }),
-  }).then(checkResponse);
-};
-
-export const token = (token) => {
-  return fetch(`${BASE_URL}/users/me`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  }).then(checkResponse);
-};
+export const checkToken = (token) => {
+    return fetch(optionsApi.baseUrl + 'users/me', {
+        method: "GET",
+        headers: {
+            ...optionsApi.headers,
+            "Authorization": 'Bearer ' + token
+        }
+    })
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+            if (res.status === 400) {
+                return Promise.reject('Токен не передан')
+            } else if (res.status === 401) {
+                return Promise.reject('Переданный токен некорректен')
+            }
+            return Promise.reject(`${res.status}`)
+        })
+}

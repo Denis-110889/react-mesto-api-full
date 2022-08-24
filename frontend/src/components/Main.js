@@ -1,65 +1,59 @@
-import React from "react";
-import { useContext } from "react";
-import Card from "./Card";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import {useContext} from "react"
+import Card from "./Card"
+import {CurrentUserContext} from "../contexts/CurrentUserContext"
 
-function Main({
-  onEditProfile,
-  onAddPlace,
-  onEditAvatar,
-  onCardClick,
-  cards,
-  onCardDelete,
-  onCardLike,
-}) {
-  const currentUser = useContext(CurrentUserContext);
+function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick, cards, onCardLike, onCardDelete}) {
+    const currentUser = useContext(CurrentUserContext)
 
-  return (
-    <main className="content">
-      <section className="profile">
-        <img
-          className="profile__avatar"
-          src={currentUser.avatar}
-          alt="аватар пользователя"
-        />
+    return (
+        <main className="main">
+          <section className="profile">
+            <button 
+              className="profile__avatar-box" 
+              onClick={onEditAvatar}
+            >
+              <img 
+                className="profile__avatar" 
+                src={currentUser.avatar} 
+                alt="Аватар"
+              />
+            </button>
+                <div className="profile__info">
+                    <div className="profile__name-container">
+                      <h1 className="profile__name">{currentUser.name}</h1>
+                      <button 
+                        className="profile__edit-button link" 
+                        type="button" 
+                        onClick={onEditProfile} 
+                        aria-label="Редактировать профиль"
+                      ></button>
+                    </div>
+                    <p className="profile__job">{currentUser.about}</p>
+                  </div>
+              <button 
+                className="profile__add-button link" 
+                type="button" 
+                onClick={onAddPlace} 
+                aria-label="Добавить"
+              ></button>
+          </section>
 
-        <button
-          type="button"
-          className="openPopupBtn  profile__avatar-button"
-          onClick={onEditAvatar}
-        ></button>
+          <section className="elements">
+                {
+                    cards.map(card => (
+                        <Card
+                            key={card._id}
+                            card={card}
+                            onCardClick={onCardClick}
+                            onCardLike={onCardLike}
+                            onCardDelete={onCardDelete}
+                        />
+                    ))
+                }
+            </section>
 
-        <div className="profile-info">
-          <h1 className="profile-info__userName">{currentUser.name}</h1>
-          <button
-            type="button"
-            className="openPopupBtn profile-info__edit-button"
-            onClick={onEditProfile}
-          ></button>
-          <p className="profile-info__about-self">{currentUser.about}</p>
-        </div>
-        <button
-          type="button"
-          className="openPopupBtn profile__add-button"
-          onClick={onAddPlace}
-        ></button>
-      </section>
-
-      <section className="places">
-        <ul className="elements" id="elements">
-          {cards.map((card) => (
-            <Card
-              key={card._id}
-              card={card}
-              onCardClick={onCardClick}
-              onCardDelete={onCardDelete}
-              onCardLike={onCardLike}
-            />
-          ))}
-        </ul>
-      </section>
-    </main>
-  );
+        </main>
+    )
 }
 
-export default Main;
+export default Main

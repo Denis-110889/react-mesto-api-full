@@ -1,89 +1,72 @@
-class Api {
-    constructor({ baseUrl, headers }) {
-        this._baseUrl = baseUrl;
-        this._headers = headers;
+export default class Api {
+    constructor(options) {
+        this._baseUrl = options.baseUrl
+        this._headers = options.headers
     }
 
-    _checkResponse(res) {
-        return res.ok ? res.json() : Promise.reject(res.status);
+    _fetch({ path, method, body = null, token }) {
+        const url = this._baseUrl + path
+        return fetch(url, {
+            method,
+            headers: {
+                ...this._headers,
+                authorization: 'Bearer ' + token
+            },
+            body
+        })
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                }
+                return Promise.reject(`${res.status}`)
+            })
     }
 
-    getProfile() {
-        return fetch(`${this._baseUrl}/users/me`, {
-        headers: this._headers,
-        }).then((res) => this._checkResponse(res));
+    _likeCard(cardId, method, token) {
+        return this._fetch({ path: `cards/${cardId}/likes`, method, token })
     }
 
-    getInitialCards() {
-        return fetch(`${this._baseUrl}/cards`, {
-        headers: this._headers,
-        }).then((res) => this._checkResponse(res));
+    getUserInfo(token) {
+        return this._fetch({ path: 'users/me', method: 'GET', token })
     }
 
-    editProfile({ name, about }) {
-        return fetch(`${this._baseUrl}/users/me`, {
-        method: "PATCH",
-        headers: this._headers,
-        body: JSON.stringify({
-            name,
-            about,
-        }),
-        }).then((res) => this._checkResponse(res));
+    getInitialCards(token) {
+        return this._fetch({ path: 'cards', method: 'GET', token })
     }
 
-    addCard({ name, link }) {
-        return fetch(`${this._baseUrl}/cards`, {
-        method: "POST",
-        headers: this._headers,
-        body: JSON.stringify({
-            name,
-            link,
-        }),
-        }).then((res) => this._checkResponse(res));
+    editUserInfo({ name, about }, token) {
+        const body = JSON.stringify({ name, about })
+
+        return this._fetch({ path: 'users/me', method: 'PATCH', body, token })
     }
 
-    deleteCard(id) {
-        return fetch(`${this._baseUrl}/cards/${id}`, {
-        method: "DELETE",
-        headers: this._headers,
-        }).then((res) => this._checkResponse(res));
+    addCard({ name, link }, token) {
+        const body = JSON.stringify({ name, link })
+        return this._fetch({ path: 'cards', method: 'POST', body, token })
     }
 
-    addlikeCard(id) {
-        return fetch(`${this._baseUrl}/cards/${id}/likes`, {
-        method: "PUT",
-        headers: this._headers,
-        }).then((res) => this._checkResponse(res));
+    deleteCard(cardId, token) {
+        return this._fetch({ path: `cards/${cardId}`, method: 'DELETE', token })
     }
 
-    deletelikeCard(id) {
-        return fetch(`${this._baseUrl}/cards/${id}/likes`, {
-        method: "DELETE",
-        headers: this._headers,
-        }).then((res) => this._checkResponse(res));
+    editUserAvatar({ avatar }, token) {
+        const body = JSON.stringify({ avatar })
+        return this._fetch({ path: 'users/me/avatar', method: 'PATCH', body, token })
     }
 
-    avatarUpdate({ avatar }) {
-        return fetch(`${this._baseUrl}/users/me/avatar`, {
-        method: "PATCH",
-        headers: this._headers,
-        body: JSON.stringify({
-            avatar,
-        }),
-        }).then((res) => this._checkResponse(res));
-    }
-
-    changeLikeCardStatus(id, isLiked) {
-        return isLiked ? this.addlikeCard(id) : this.deletelikeCard(id);
+    changeLikeCardStatus(cardId, isLiked, token) {
+        return isLiked ?
+            this._likeCard(cardId, 'PUT', token) :
+            this._likeCard(cardId, 'DELETE', token)
     }
 }
 
-    export const api = new Api({
-    baseUrl: "https://mesto.nomoreparties.co/v1/cohort-39",
-    headers: {
-        authorization: "a4e71077-2ead-4b23-b808-4b2822c2c13e",
-        "Content-Type": "application/json",
-    },
-});
+// вынесем в отдельный файл
 
-    export default api;
+/* export const optionsApi = {
+    //baseUrl: 'https://api.tavozhnyanskii.denis.nomoredomains.sbs/',
+    baseUrl: 'http://localhost:3001/',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+} */
