@@ -20,7 +20,6 @@ import ConfirmDeletePopup from './ComfirmDeletePopup';
 const api = new Api(optionsApi)
 
 function App() {
-    const history = useHistory()
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [isSuccessfully, setIsSuccessfully] = useState(false)
     const [userEmail, setUserEmail] = useState("Your email")
@@ -35,6 +34,7 @@ function App() {
     const [cards, setCards] = useState([])
     const [cardId, setCardId] = useState('')
     const [token, setToken] = useState('')
+    const history = useHistory()
 
     useEffect(() => {
         if (isLoggedIn) {
@@ -129,15 +129,6 @@ function App() {
             .finally(() => setIsLoadingButton(false))
     }
 
-    function handleCardLike(card) {
-        const isLiked = card.likes.some(i => i === currentUser._id);
-        api.changeLikeCardStatus(card._id, !isLiked, token)
-            .then(newCard => {
-                setCards(state => state.map(c => c._id === card._id ? newCard : c));
-            })
-            .catch(err => console.log("Не удалось изменить лайк", err))
-    }
-
     function handleCardDelete() {
         setIsLoadingButton(true)
         api.deleteCard(cardId, token)
@@ -148,6 +139,15 @@ function App() {
             })
             .catch(err => console.log("Не удалось удалить карточку", err))
             .finally(() => setIsLoadingButton(false))
+    }
+
+    function handleCardLike(card) {
+        const isLiked = card.likes.some(i => i === currentUser._id);
+        api.changeLikeCardStatus(card._id, !isLiked, token)
+            .then(newCard => {
+                setCards(state => state.map(c => c._id === card._id ? newCard : c));
+            })
+            .catch(err => console.log("Не удалось изменить лайк", err))
     }
 
     function handleAddPlaceSubmit(data) {

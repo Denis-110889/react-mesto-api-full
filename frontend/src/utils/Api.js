@@ -26,6 +26,12 @@ export default class Api {
         return this._fetch({ path: `cards/${cardId}/likes`, method, token })
     }
 
+    changeLikeCardStatus(cardId, isLiked, token) {
+        return isLiked ?
+            this._likeCard(cardId, 'PUT', token) :
+            this._likeCard(cardId, 'DELETE', token)
+    }
+
     getUserInfo(token) {
         return this._fetch({ path: 'users/me', method: 'GET', token })
     }
@@ -54,11 +60,6 @@ export default class Api {
         return this._fetch({ path: 'users/me/avatar', method: 'PATCH', body, token })
     }
 
-    changeLikeCardStatus(cardId, isLiked, token) {
-        return isLiked ?
-            this._likeCard(cardId, 'PUT', token) :
-            this._likeCard(cardId, 'DELETE', token)
-    }
 }
 
 // вынесем в отдельный файл
