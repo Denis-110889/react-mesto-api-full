@@ -6,13 +6,14 @@ const helmet = require('helmet');
 const { celebrate, Joi, errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('./middlewares/cors');
+const { NoValidId } = require('./errors/NoValidId');
 
 const {
   login,
   createUsers,
 } = require('./controllers/users');
 const { isAuthorized } = require('./middlewares/auth');
-const { NotFound } = require('./errors/NotFound');
+// const { NotFound } = require('./errors/NotFound');
 
 const { REG_LINK } = require('./const/const');
 
@@ -43,7 +44,7 @@ app.get('/crash-test', () => {
 app.post('/signin', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
-    password: Joi.string().required().min(8),
+    password: Joi.string().required(),
   }),
 }), login);
 
@@ -53,7 +54,7 @@ app.post('/signup', celebrate({
     about: Joi.string().min(2).max(30),
     avatar: Joi.string().pattern(REG_LINK),
     email: Joi.string().required().email(),
-    password: Joi.string().required().min(8),
+    password: Joi.string().required(),
   }),
 }), createUsers);
 
@@ -63,7 +64,7 @@ app.use('/', require('./routes/users'));
 app.use('/', require('./routes/cards'));
 
 app.use((req, res, next) => {
-  next(new NotFound('404 - Страницы не существует'));
+  next(new NoValidId('404 - Страницы не существует'));
 });
 
 app.use(errorLogger); // подключаем логгер ошибок

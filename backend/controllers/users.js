@@ -1,17 +1,21 @@
+const { NODE_ENV, JWT_SECRET } = process.env;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const { ConflictError } = require('../errors/ConflictError');
 const { ValidationError } = require('../errors/ValidationError');
 const { NoValidId } = require('../errors/NoValidId');
-const { CastError } = require('../errors/CastError');
+// const { CastError } = require('../errors/CastError');
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
 
   User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, 'secret', { expiresIn: '7d' });
+      const token = jwt.sign(
+        { _id: user._id },
+        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+      );
       res.send({ token });
     })
     .catch((err) => next(err));
@@ -43,7 +47,8 @@ const createUsers = (req, res, next) => {
         } else {
           next(err);
         }
-      }));
+      }))
+    .catch((err) => next(err));
 };
 
 const findUsers = (req, res, next) => {
@@ -65,8 +70,8 @@ const findUsersById = (req, res, next) => {
       res.send(user);
     })
     .catch((err) => {
-      if (err.message === 'CastError') {
-        next(new CastError('400 —  Получение пользователя с некорректным id'));
+      if (err.message === 'ValidationError') {
+        next(new ValidationError('400 —  Получение пользователя с некорректным id'));
       } else {
         next(err);
       }

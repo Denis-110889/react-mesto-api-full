@@ -2,7 +2,7 @@ const Card = require('../models/card');
 const { ValidationError } = require('../errors/ValidationError');
 const { NoValidId } = require('../errors/NoValidId');
 const { NoPermission } = require('../errors/NoPermission');
-const { CastError } = require('../errors/CastError');
+// const { CastError } = require('../errors/CastError');
 
 const returnCards = (req, res, next) => {
   Card.find()
@@ -42,10 +42,8 @@ const deleteCards = (req, res, next) => {
       }
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new CastError('400 —  Карточка с указанным _id не найдена'));
-      } else if (err.name === 'TypeError') {
-        next(new NoValidId('404 - Удаление карточки с несуществующим в БД id'));
+      if (err.name === 'ValidationError') {
+        next(new ValidationError('400 —  Карточка с указанным _id не найдена'));
       } else {
         next(err);
       }
