@@ -1,8 +1,8 @@
 /* eslint-disable linebreak-style */
 const allowedCors = [
-  'http://tavozhnyanskii.denis.nomoredomains.sbs',
   'https://tavozhnyanskii.denis.nomoredomains.sbs',
-  'http://localhost:3000',
+  'http://tavozhnyanskii.denis.nomoredomains.sbs',
+  'localhost:3000',
 ];
 
 const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
