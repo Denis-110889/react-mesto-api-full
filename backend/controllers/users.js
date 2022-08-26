@@ -10,11 +10,15 @@ const { NoValidId } = require('../errors/NoValidId');
 const login = (req, res, next) => {
   const { email, password } = req.body;
 
+  // все исправил, срок жизни ключа добавил, не знаю прям зачем я его прошлый раз удалил
+  // Все протестил у меня вроде все работает
+
   User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
         NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+        { expiresIn: '7d' },
       );
       res.send({ token });
     })
